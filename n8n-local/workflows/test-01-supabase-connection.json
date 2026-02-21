@@ -1,0 +1,234 @@
+{
+  "name": "Test 01 — Supabase Connection",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "trigger-manual",
+      "name": "Ejecutar Test",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        200,
+        300
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "supabase-url",
+              "name": "supabase_url",
+              "type": "string",
+              "value": "https://TU-PROJECT-REF.supabase.co"
+            },
+            {
+              "id": "supabase-key",
+              "name": "supabase_service_key",
+              "type": "string",
+              "value": "TU-SERVICE-ROLE-KEY"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "config-supabase",
+      "name": "Config Supabase",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        420,
+        300
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.supabase_url }}/rest/v1/conversation_state",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $json.supabase_service_key }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.supabase_service_key }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=representation"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\"client_phone\": \"test_connection_001\", \"client_name\": \"Test Connection\", \"status\": \"bot\"}",
+        "options": {}
+      },
+      "id": "test-insert",
+      "name": "1 Test INSERT",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        660,
+        300
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $node['Config Supabase'].json.supabase_url }}/rest/v1/conversation_state?client_phone=eq.test_connection_001&select=*",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $node['Config Supabase'].json.supabase_service_key }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $node['Config Supabase'].json.supabase_service_key }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "test-select",
+      "name": "2 Test SELECT",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        900,
+        300
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "method": "DELETE",
+        "url": "={{ $node['Config Supabase'].json.supabase_url }}/rest/v1/conversation_state?client_phone=eq.test_connection_001",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $node['Config Supabase'].json.supabase_service_key }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $node['Config Supabase'].json.supabase_service_key }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "test-delete",
+      "name": "3 Test DELETE",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        1140,
+        300
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{json:{test_status:'TODOS LOS TESTS PASARON',insert_ok:true,select_ok:true,delete_ok:true,message:'Conexion a Supabase verificada. INSERT, SELECT y DELETE funcionan. Puedes eliminar este workflow.'}}];"
+      },
+      "id": "test-result",
+      "name": "4 Resultado",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1380,
+        300
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "content": "## Test Conexion Supabase\n\n1. Abre Config Supabase\n2. Pon tu Project Reference y service_role key\n3. Ejecuta\n4. Si Resultado muestra verde = TODO OK\n\nFlujo: INSERT -> SELECT -> DELETE -> Resultado",
+        "height": 200,
+        "width": 520,
+        "color": 5
+      },
+      "id": "sticky-instructions",
+      "name": "Instrucciones",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        180,
+        40
+      ],
+      "typeVersion": 1
+    }
+  ],
+  "connections": {
+    "Ejecutar Test": {
+      "main": [
+        [
+          {
+            "node": "Config Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config Supabase": {
+      "main": [
+        [
+          {
+            "node": "1 Test INSERT",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1 Test INSERT": {
+      "main": [
+        [
+          {
+            "node": "2 Test SELECT",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2 Test SELECT": {
+      "main": [
+        [
+          {
+            "node": "3 Test DELETE",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3 Test DELETE": {
+      "main": [
+        [
+          {
+            "node": "4 Resultado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Malta"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {}
+}
