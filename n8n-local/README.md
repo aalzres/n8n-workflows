@@ -55,7 +55,7 @@ n8n-local/
 | 02 | Meta WhatsApp Cloud API | ✅ Completada |
 | 03 | Telegram Bot | ✅ Completada |
 | 04 | Uptime Kuma | ✅ Completada |
-| 05 | Contenido del Bot (System Prompt) | ⬜ Pendiente |
+| 05 | Contenido del Bot (System Prompt) | ✅ Completada |
 | 06 | Workflow Core (Módulos 1-4) | ⬜ Pendiente |
 | 07 | Antiflood (Módulo 5) | ⬜ Pendiente |
 | 08 | Escalado a Humano | ⬜ Pendiente |
