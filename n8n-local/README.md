@@ -25,6 +25,9 @@ n8n-local/
 │   ├── 01_create_tables.sql             # Tablas principales
 │   ├── 02_create_indexes.sql            # Índices de rendimiento
 │   └── 03_message_metadata.sql          # Tabla de analítica (opcional)
+├── monitoring/
+│   ├── docker-compose.yml               # Uptime Kuma (contenedor separado)
+│   └── README.md                        # Guía de configuración
 ├── workflows/
 │   ├── chatbot-main.json                # Workflow principal (Módulos 1-5)
 │   ├── error-handler.json               # Error workflow global
@@ -51,7 +54,7 @@ n8n-local/
 | 01 | Supabase (Base de datos) | ✅ Completada |
 | 02 | Meta WhatsApp Cloud API | ✅ Completada |
 | 03 | Telegram Bot | ✅ Completada |
-| 04 | Uptime Kuma | ⬜ Pendiente |
+| 04 | Uptime Kuma | ✅ Completada |
 | 05 | Contenido del Bot (System Prompt) | ⬜ Pendiente |
 | 06 | Workflow Core (Módulos 1-4) | ⬜ Pendiente |
 | 07 | Antiflood (Módulo 5) | ⬜ Pendiente |

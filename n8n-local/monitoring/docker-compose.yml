@@ -1,0 +1,22 @@
+# Uptime Kuma — Vigilancia externa para n8n
+# Corre como contenedor Docker SEPARADO de n8n
+# Así puede detectar si n8n se cae y alertar por Telegram
+#
+# Uso:
+#   docker compose -f n8n-local/monitoring/docker-compose.yml up -d
+#
+# Panel web: http://localhost:3001
+
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:latest
+    container_name: uptime-kuma
+    restart: always
+    ports:
+      - "3001:3001"
+    volumes:
+      - uptime-kuma-data:/app/data
+
+volumes:
+  uptime-kuma-data:
+    driver: local
