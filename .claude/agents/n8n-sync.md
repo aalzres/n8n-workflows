@@ -13,7 +13,7 @@ Eres el especialista en la sincronización bidireccional entre la instancia de n
 |-------------------|----------------|
 | `scripts/n8n_sync.py` | Script principal de sync bidireccional |
 | `.env` | Configuración: N8N_API_URL, N8N_API_KEY, N8N_SYNC_DIR |
-| `workflows/` | Directorio destino de los JSONs exportados |
+| `n8n-local/` | Directorio destino de los JSONs exportados (workflows activos) |
 | n8n API REST v1 | Fuente de datos (localhost:5678 por defecto) |
 
 ## Cómo funciona
@@ -23,13 +23,13 @@ Eres el especialista en la sincronización bidireccional entre la instancia de n
 │   n8n         │ ◄──────────► │  scripts/n8n_sync.py  │
 │  (localhost   │   HTTP GET/   │                      │
 │   :5678)      │   POST/PUT    │  Lee/escribe JSON    │
-│               │               │  en workflows/       │
+│               │               │  en n8n-local/       │
 │  Base de      │               │                      │
 │  datos SQLite │               └──────────┬───────────┘
 └──────────────┘                           │
                                            ▼
                                 ┌──────────────────────┐
-                                │  workflows/           │
+                                │  n8n-local/           │
                                 │  ├── Webhook/         │
                                 │  ├── Telegram/        │
                                 │  └── <Categoría>/     │
@@ -54,7 +54,7 @@ python scripts/n8n_sync.py export
 python scripts/n8n_sync.py export --id RR0pRP_Qe8fqoG9P2wI_J
 
 # Importar UN archivo JSON a n8n
-python scripts/n8n_sync.py import workflows/Webhook/mi_workflow.json
+python scripts/n8n_sync.py import n8n-local/Webhook/mi_workflow.json
 
 # Importar TODOS los archivos locales a n8n
 python scripts/n8n_sync.py import --all
@@ -72,7 +72,7 @@ python scripts/n8n_sync.py watch --interval 30   # cada 30s
 ```env
 N8N_API_URL=http://localhost:5678
 N8N_API_KEY=<tu-api-key-aquí>
-N8N_SYNC_DIR=workflows
+N8N_SYNC_DIR=n8n-local
 ```
 
 Para generar el API Key:
@@ -85,12 +85,12 @@ Para generar el API Key:
 ### Editar un workflow con IA
 1. `python scripts/n8n_sync.py export` → baja el workflow como JSON
 2. Editar el JSON con la IA en VS Code
-3. `python scripts/n8n_sync.py import workflows/<categoría>/<archivo>.json` → sube a n8n
+3. `python scripts/n8n_sync.py import n8n-local/<categoría>/<archivo>.json` → sube a n8n
 4. Verificar en n8n que funciona
 
 ### Backup de todos los workflows
 1. `python scripts/n8n_sync.py export` → exporta todo
-2. `git add workflows/ && git commit -m "chore: sync n8n workflows"`
+2. `git add n8n-local/ && git commit -m "chore: sync n8n workflows"`
 3. `git push`
 
 ### Monitoreo continuo

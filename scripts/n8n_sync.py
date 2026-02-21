@@ -14,7 +14,7 @@ Usage:
 Environment variables (or .env file):
     N8N_API_URL   — n8n instance URL (default: http://localhost:5678)
     N8N_API_KEY   — n8n API key (required)
-    N8N_SYNC_DIR  — Local directory for workflow JSONs (default: workflows)
+    N8N_SYNC_DIR  — Local directory for workflow JSONs (default: n8n-local)
 """
 
 import argparse
@@ -52,7 +52,7 @@ load_env()
 
 API_URL = os.environ.get("N8N_API_URL", "http://localhost:5678")
 API_KEY = os.environ.get("N8N_API_KEY", "")
-SYNC_DIR = os.environ.get("N8N_SYNC_DIR", "workflows")
+SYNC_DIR = os.environ.get("N8N_SYNC_DIR", "n8n-local")
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 SYNC_PATH = PROJECT_ROOT / SYNC_DIR
 

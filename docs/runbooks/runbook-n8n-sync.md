@@ -57,7 +57,7 @@ Exported: 2, Skipped (unchanged): 0
 **Cuándo**: Tras editar un JSON con la IA o manualmente en VS Code.
 
 ```bash
-python scripts/n8n_sync.py import workflows/Webhook/Mi_workflow.json
+python scripts/n8n_sync.py import n8n-local/Webhook/Mi_workflow.json
 ```
 
 Resultado esperado:
@@ -87,7 +87,7 @@ python scripts/n8n_sync.py watch --interval 10
 
 ```bash
 python scripts/n8n_sync.py export
-git add workflows/
+git add n8n-local/
 git commit -m "chore: sync n8n workflows $(date +%Y-%m-%d)"
 git push
 ```
