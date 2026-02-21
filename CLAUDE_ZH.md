@@ -1,230 +1,122 @@
-
-
 # n8n-workflows 仓库
 
-#
+## 概述
 
-# 概述
+n8n 自动化工作流仓库，拥有 4343+ 工作流、FastAPI 搜索 API 和 GitHub Pages 文档。
 
-本仓库包含一系列 n8n 工作流自动化文件。n8n 是一款工作流自动化工具，可通过可视化节点界面创建复杂自动化。每个工作流以 JSON 文件形式存储，包含节点定义、连接和配置信息。
+## 技术栈
 
-#
+- **后端**: Python FastAPI + SQLite FTS5（全文搜索）
+- **前端**: 原生 HTML + CSS + JS（无框架）
+- **基础设施**: Docker + Kubernetes + Helm
+- **AI 栈**: n8n + Agent Zero + ComfyUI（在 `ai-stack/` 中）
+- **发布**: GitHub Pages（`docs/`）
 
-# 仓库结构
+## 仓库结构
 
-```text
-
-text
-
-bash
+```
 n8n-workflows/
-├── workflows/           
-
-# 主目录，包含所有 n8n 工作流 JSON 文件
-│   ├── *.json          
-
-# 各个工作流文件
-├── README.md           
-
-# 仓库文档
-├── claude.md           
-
-# 本文件
-
- - AI 助手上下文
-└── [其他文件]          
-
-# 其他配置或文档文件
-```text
-
-text
-
-text
-
-#
-
-# 工作流文件格式
-
-每个工作流 JSON 文件包含：
-
-- **name**：工作流标识符
-
-- **nodes**：节点对象数组，定义操作
-
-- **connections**：定义节点连接方式的对象
-
-- **settings**：工作流级别配置
-
-- **staticData**：执行间持久化数据
-
-- **tags**：分类标签
-
-- **createdAt/updatedAt**：时间戳
-
-#
-
-# 常见节点类型
-
-- **触发节点**：webhook、cron、manual
-
-- **集成节点**：HTTP 请求、数据库连接器、API 集成
-
-- **逻辑节点**：IF、Switch、Merge、Loop
-
-- **数据节点**：Function、Set、Transform Data
-
-- **通信节点**：Email、Slack、Discord 等
-
-#
-
-# 使用本仓库
-
-#
-
-#
-
-# 分析任务建议
-
-分析本仓库工作流时：
-
-1. 解析 JSON 文件，理解工作流结构
-
-2. 检查节点链路，确定功能实现
-
-3. 识别外部集成与依赖
-
-4. 考虑节点连接实现的业务逻辑
-
-#
-
-#
-
-# 文档任务建议
-
-记录工作流文档时：
-
-1. 验证现有描述与实际实现的一致性
-
-2. 识别触发机制和调度计划
-
-3. 列出所有使用的外部服务和API
-
-4. 记录数据转换和业务逻辑
-
-5. 突出显示任何错误处理或重试机制
-
-#
-
-#
-
-# 修改任务建议
-
-修改工作流时：
-
-1. 保持 JSON 结构和必要字段
-
-2. 维护节点 ID 的唯一性
-
-3. 添加/删除节点时更新连接
-
-4. 测试与 n8n 版本要求的兼容性
-
-#
-
-# 关键注意事项
-
-#
-
-#
-
-# 安全性
-
-- 工作流文件可能在 webhook URL 或 API 配置中包含敏感信息
-
-- 凭证通常单独存储在 n8n 中，而不在工作流文件中
-
-- 谨慎处理任何硬编码的值或端点
-
-#
-
-#
-
-# 最佳实践
-
-- 工作流应有清晰、描述性的名称
-
-- 复杂工作流受益于文档节点或注释
-
-- 错误处理节点提高可靠性
-
-- 模块化工作流（调用子工作流）提高可维护性
-
-#
-
-#
-
-# 常见模式
-
-- **数据管道**：触发 → 获取数据 → 转换 → 存储/发送
-
-- **集成同步**：定时任务 → API调用 → 比较 → 更新系统
-
-- **自动化**：Webhook → 处理 → 条件逻辑 → 执行操作
-
-- **监控**：定时 → 检查状态 → 问题告警
-
-#
-
-# AI 助手的有用上下文
-
-协助处理此仓库时：
-
-1. **工作流分析**：通过检查节点流程了解业务目的，而不仅仅是单个节点。
-
-2. **文档生成**：创建解释工作流实现功能的描述，而不仅仅是包含哪些节点。
-
-3. **故障排除**：常见问题包括：
-
-   - 节点连接不正确
-
-   - 缺少错误处理
-
-   - 循环中的低效数据处理
-
-   - 应该参数化的硬编码值
-
-4. **优化建议**：
-
-   - 识别冗余操作
-
-   - 适用场景下建议批处理
-
-   - 推荐添加错误处理
-
-   - 建议拆分复杂工作流
-
-5. **代码生成**：创建分析这些工作流的工具时：
-
-   - 处理各种 n8n 格式版本
-
-   - 考虑自定义节点
-
-   - 解析节点参数中的表达式
-
-   - 考虑节点执行顺序
-
-#
+├── .claude/agents/          # Claude 子代理（自动检测）
+├── api_server.py            # 主 REST API（FastAPI）
+├── run.py                   # 服务器入口
+├── workflow_db.py           # SQLite 数据访问层
+├── src/                     # Python 模块（AI、分析、社区、用户）
+├── static/                  # 工作流搜索 SPA（原生 HTML）
+├── workflows/               # 4343+ 按集成分类的 n8n JSON
+├── context/                 # 分类和搜索索引数据
+├── docs/                    # GitHub Pages + API 文档
+├── k8s/                     # Kubernetes 清单
+├── helm/                    # Helm chart
+├── ai-stack/                # 本地 AI 栈（n8n + Agent Zero + ComfyUI）
+├── scripts/                 # 部署、备份、健康检查、索引
+├── templates/               # 可重用工作流模板
+├── Dockerfile               # 生产镜像
+├── docker-compose*.yml      # Docker 环境（基础、开发、生产）
+└── test_*.sh / test_*.py    # API 和安全测试
+```
+
+## 项目 URL
+
+| 环境 | URL |
+|------|-----|
+| 本地 API | `http://localhost:8000` |
+| GitHub Pages | `https://zie619.github.io/n8n-workflows` |
+| AI 栈（n8n） | `http://localhost:5678` |
+| AI 栈（Agent Zero） | `http://localhost:50080` |
+
+## n8n 工作流格式
+
+`workflows/` 中的每个 JSON 包含：`name`、`nodes`（操作数组）、`connections`（节点间流程）、`settings`、`tags`、`createdAt/updatedAt`。
+
+### 常见节点类型
+- **触发器**: webhook、cron、manual
+- **集成**: HTTP Request、数据库连接器、API
+- **逻辑**: IF、Switch、Merge、Loop
+- **数据**: Function、Set、Transform Data
+- **通信**: Email、Slack、Discord
+
+### 常见模式
+- **数据管道**: 触发 → 获取 → 转换 → 存储/发送
+- **集成同步**: 定时任务 → API 调用 → 比较 → 更新
+- **自动化**: Webhook → 处理 → 条件判断 → 操作
+- **监控**: 定时 → 检查状态 → 告警
+
+## 安全性
+
+- 速率限制：每 IP 每分钟 60 次请求（内存存储）
+- 路径遍历防护：`validate_filename()` 三重 URL 解码
+- CORS 限制特定来源
+- JWT HS256 + bcrypt 密码哈希
+- Docker：非 root 用户 `appuser`（UID 1001）
+- 工作流凭证存储在 n8n 中，不在 JSON 文件中
+
+# 子专业代理
+
+本项目使用 **Claude 子代理**，位于 `.claude/agents/`。每个代理有明确的职责域。
+
+## 代理结构
+
+```
+.claude/agents/
+├── main-assistant.md   # 主编排器 — 所有任务的入口点
+├── backend-api.md      # FastAPI API、Python、端点、中间件
+├── database.md         # SQLite、FTS5、模式、迁移
+├── frontend.md         # HTML/CSS/JS、GitHub Pages、静态 UI
+├── ai-ml.md            # AI 对话、分析、ai-stack
+├── security.md         # JWT 认证、速率限制、CVE、安全加固
+├── devops.md           # Docker、Kubernetes、Helm、CI/CD、脚本
+├── community.md        # 评分、评论、用户管理
+└── workflows.md        # n8n JSON 集合、分类、索引
+```
+
+**系统技术文档**: `docs/design/system-overview.md`
+
+## 代理工作方式
+
+- **main-assistant** 是编排器：分析请求，选择专家，自主执行直到完成任务。
+- 代理**不会在每一步阻塞流程**请求确认 — 执行完毕后汇报。
+- 仅在破坏性和不可逆操作前请求明确确认。
+
+## AI 助手有用上下文
+
+协助本仓库时：
+
+1. **工作流分析**: 通过检查节点流程了解业务目的，不仅仅是单个节点。
+2. **文档生成**: 描述工作流完成的功能，不仅仅是包含哪些节点。
+3. **故障排除**: 常见问题：节点连接错误、缺少错误处理、循环低效、硬编码值。
+4. **优化建议**: 识别冗余操作、建议批处理、推荐错误处理、拆分复杂工作流。
+5. **代码生成**: 处理各种 n8n 格式版本、自定义节点、参数表达式、执行顺序。
 
 # 仓库特定信息
 
-[在此处添加有关工作流、命名约定或特殊注意事项的任何特定信息]
-
-#
+- **技术栈**: Python FastAPI + SQLite FTS5 + 原生 HTML + Docker
+- **工作流**: 4343+ n8n JSON 按集成分类在 `workflows/`
+- **本地 API URL**: `http://localhost:8000`
+- **GitHub Pages**: `https://zie619.github.io/n8n-workflows`
 
 # 版本兼容性
 
-- n8n 版本：[指定这些工作流兼容的 n8n 版本]
+- n8n 版本：兼容 n8n v1.x
+- 最后更新：2026-02-21
 
-- 最后更新：[最后一次主要更新的日期]
-
-- 迁移说明：[任何特定版本的注意事项]
+[English](./CLAUDE.md)
