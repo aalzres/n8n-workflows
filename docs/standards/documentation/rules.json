@@ -1,0 +1,74 @@
+{
+  "version": "1.0.0",
+  "description": "Reglas machine-readable para validación de documentación",
+  "rules": [
+    {
+      "id": "DOC-001",
+      "name": "front-matter-required",
+      "description": "Todo documento .md debe tener front-matter YAML con title, status, tags",
+      "applies_to": ["design", "adr", "runbook", "brand"],
+      "required_fields": ["title", "status", "tags", "created", "updated"],
+      "severity": "error"
+    },
+    {
+      "id": "DOC-002",
+      "name": "status-valid-values",
+      "description": "El campo status debe ser uno de los valores permitidos",
+      "allowed_values": ["draft", "review", "approved", "deprecated"],
+      "severity": "error"
+    },
+    {
+      "id": "DOC-003",
+      "name": "adr-sequential-numbering",
+      "description": "Los ADRs deben numerarse secuencialmente sin saltos (adr-NNN-slug.md)",
+      "applies_to": ["adr"],
+      "pattern": "^adr-\\d{3}-[a-z0-9-]+\\.md$",
+      "severity": "error"
+    },
+    {
+      "id": "DOC-004",
+      "name": "manifest-sync",
+      "description": "Todo documento nuevo debe estar registrado en manifest.json",
+      "applies_to": ["design", "adr", "runbook", "brand"],
+      "severity": "warning"
+    },
+    {
+      "id": "DOC-005",
+      "name": "no-orphan-folders",
+      "description": "No se permiten carpetas fuera de la estructura canónica",
+      "allowed_folders": ["design", "adr", "runbooks", "brands", "standards", "validators"],
+      "severity": "error"
+    },
+    {
+      "id": "DOC-006",
+      "name": "runbook-required-sections",
+      "description": "Todo runbook debe tener las secciones: Síntomas, Diagnóstico, Procedimientos, Rollback",
+      "applies_to": ["runbook"],
+      "required_sections": ["Síntomas", "Diagnóstico", "Procedimientos", "Rollback"],
+      "severity": "warning"
+    },
+    {
+      "id": "DOC-007",
+      "name": "adr-required-sections",
+      "description": "Todo ADR debe tener: Contexto, Decisión, Alternativas Consideradas, Consecuencias",
+      "applies_to": ["adr"],
+      "required_sections": ["Contexto", "Decisión", "Alternativas Consideradas", "Consecuencias"],
+      "severity": "warning"
+    },
+    {
+      "id": "DOC-008",
+      "name": "agent-required-sections",
+      "description": "Todo documento de agente debe tener: Rol, Dominio, Lo que NO hace",
+      "applies_to": ["agent"],
+      "required_sections": ["Rol", "Dominio", "Lo que este agente NO hace"],
+      "severity": "warning"
+    },
+    {
+      "id": "DOC-009",
+      "name": "no-hardcoded-secrets",
+      "description": "Los documentos no deben contener API keys, passwords o secrets hardcodeados",
+      "pattern": "(api_key|password|secret|token)\\s*=\\s*['\"][^'\"]{8,}['\"]",
+      "severity": "error"
+    }
+  ]
+}
