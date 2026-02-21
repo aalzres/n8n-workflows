@@ -47,6 +47,8 @@ Si la petición es destructiva o irreversible (eliminar datos, borrar archivos e
 ├── Workflows JSON (n8n) ──────────► workflows
 ├── SQLite / Esquema / Migrations ──► database
 ├── Ratings / Users / Community ───► community
+├── Sync n8n ↔ archivos JSON ──────► n8n-sync
+├── Git commit / push ─────────────► git-commit
 └── Tarea multi-área ───────────────► Coordinar múltiples agentes
 ```
 

@@ -86,7 +86,9 @@ n8n-workflows/
 ├── security.md         # JWT 认证、速率限制、CVE、安全加固
 ├── devops.md           # Docker、Kubernetes、Helm、CI/CD、脚本
 ├── community.md        # 评分、评论、用户管理
-└── workflows.md        # n8n JSON 集合、分类、索引
+├── workflows.md        # n8n JSON 集合、分类、索引
+├── n8n-sync.md         # n8n ↔ 本地 JSON 文件双向同步（REST API）
+└── git-commit.md       # 交互式提交，用户验证
 ```
 
 **系统技术文档**: `docs/design/system-overview.md`

@@ -86,7 +86,9 @@ Este proyecto usa **sub-agentes de Claude** ubicados en `.claude/agents/`. Cada 
 ├── security.md         # Auth JWT, rate limiting, CVEs, hardening
 ├── devops.md           # Docker, Kubernetes, Helm, CI/CD, scripts
 ├── community.md        # Ratings, reviews, gestión de usuarios
-└── workflows.md        # Colección JSON n8n, categorías, indexado
+├── workflows.md        # Colección JSON n8n, categorías, indexado
+├── n8n-sync.md         # Sync bidireccional n8n ↔ archivos JSON (API REST)
+└── git-commit.md       # Commits interactivos con validación del usuario
 ```
 
 **Documentación técnica del sistema**: `docs/design/system-overview.md`
