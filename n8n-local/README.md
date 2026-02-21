@@ -50,7 +50,7 @@ n8n-local/
 |---|----------|--------|
 | 01 | Supabase (Base de datos) | ✅ Completada |
 | 02 | Meta WhatsApp Cloud API | ⬜ Pendiente |
-| 03 | Telegram Bot | ⬜ Pendiente |
+| 03 | Telegram Bot | ✅ Completada |
 | 04 | Uptime Kuma | ⬜ Pendiente |
 | 05 | Contenido del Bot (System Prompt) | ⬜ Pendiente |
 | 06 | Workflow Core (Módulos 1-4) | ⬜ Pendiente |

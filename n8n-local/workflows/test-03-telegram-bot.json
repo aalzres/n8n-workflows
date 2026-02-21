@@ -1,0 +1,246 @@
+{
+  "name": "Test 03 — Telegram Bot",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "trigger-manual",
+      "name": "Ejecutar Test",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        200,
+        300
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "tg-token",
+              "name": "telegram_bot_token",
+              "type": "string",
+              "value": "TU-BOT-TOKEN"
+            },
+            {
+              "id": "tg-chat-id",
+              "name": "telegram_chat_id",
+              "type": "string",
+              "value": "TU-CHAT-ID"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "config-telegram",
+      "name": "Config Telegram",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        420,
+        300
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.telegram.org/bot{{ $json.telegram_bot_token }}/getMe",
+        "options": {}
+      },
+      "id": "test-getme",
+      "name": "1 Test Bot Info",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        660,
+        300
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{ $node['Config Telegram'].json.telegram_bot_token }}/sendMessage",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"chat_id\": \"{{ $node['Config Telegram'].json.telegram_chat_id }}\",\n  \"text\": \"🟢 Test de conexión — Bot de gestión operativo\\n\\nEste mensaje confirma que n8n puede enviar notificaciones a Telegram correctamente.\",\n  \"parse_mode\": \"HTML\"\n}",
+        "options": {}
+      },
+      "id": "test-send",
+      "name": "2 Test Enviar Mensaje",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        900,
+        300
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{ $node['Config Telegram'].json.telegram_bot_token }}/sendMessage",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"chat_id\": \"{{ $node['Config Telegram'].json.telegram_chat_id }}\",\n  \"text\": \"🔴 ERROR DE SISTEMA\\n\\n⚙️ Workflow: Chatbot Principal\\n📍 Nodo: Llamada a Groq\\n❌ Error: Connection timeout after 10s\\n🕐 Hora: 2026-02-21 15:30:00\\n\\n⚠️ El bot puede no estar respondiendo a clientes.\",\n  \"parse_mode\": \"HTML\"\n}",
+        "options": {}
+      },
+      "id": "test-alert",
+      "name": "3 Test Alerta Roja",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        1140,
+        300
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{ $node['Config Telegram'].json.telegram_bot_token }}/sendMessage",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"chat_id\": \"{{ $node['Config Telegram'].json.telegram_chat_id }}\",\n  \"text\": \"🟡 ESCALADO A HUMANO\\n\\n👤 Cliente: Juan García (+34612345678)\\n🏷️ Intent: complaint\\n📊 Confidence: 0.45\\n📌 Motivo: Queja detectada + baja confianza\\n\\n💬 Últimos mensajes:\\n───────────────────\\n👤 Llevo 20 minutos esperando y nadie contesta\\n🤖 Lamento la situación. Paso tu caso a un agente.\\n───────────────────\\n\\n📱 Responder: wa.me/34612345678\",\n  \"parse_mode\": \"HTML\"\n}",
+        "options": {}
+      },
+      "id": "test-escalado",
+      "name": "4 Test Escalado",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        1380,
+        300
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{json:{test_status:'TODOS LOS TESTS PASARON',bot_info_ok:true,send_ok:true,alert_ok:true,escalado_ok:true,message:'Telegram Bot verificado. Deberías haber recibido 3 mensajes: conexión, alerta roja y escalado.'}}];"
+      },
+      "id": "test-result",
+      "name": "5 Resultado",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1620,
+        300
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "content": "## Test Telegram Bot\n\n1. Abre Config Telegram\n2. Pon tu Bot Token y Chat ID\n3. Ejecuta\n4. Deberías recibir 3 mensajes en Telegram:\n   - Conexión OK\n   - Alerta roja (simulada)\n   - Escalado a humano (simulado)\n\nDespués del test: eliminar este workflow",
+        "height": 240,
+        "width": 520,
+        "color": 5
+      },
+      "id": "sticky-instructions",
+      "name": "Instrucciones",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        180,
+        40
+      ],
+      "typeVersion": 1
+    }
+  ],
+  "connections": {
+    "Ejecutar Test": {
+      "main": [
+        [
+          {
+            "node": "Config Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config Telegram": {
+      "main": [
+        [
+          {
+            "node": "1 Test Bot Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1 Test Bot Info": {
+      "main": [
+        [
+          {
+            "node": "2 Test Enviar Mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2 Test Enviar Mensaje": {
+      "main": [
+        [
+          {
+            "node": "3 Test Alerta Roja",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3 Test Alerta Roja": {
+      "main": [
+        [
+          {
+            "node": "4 Test Escalado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4 Test Escalado": {
+      "main": [
+        [
+          {
+            "node": "5 Resultado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Malta"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {}
+}

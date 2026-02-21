@@ -482,7 +482,7 @@ Cada caso de uso debe documentarse con la siguiente estructura:
 | 00 | Planificación | `plan-tecnico-chatbot-n8n.md` (este documento) | — | ✅ |
 | 01 | Supabase (Base de datos) | `subtarea-01-supabase.md` | — | ✅ |
 | 02 | Meta WhatsApp Cloud API | `subtarea-02-meta-whatsapp-api.md` | — | ⬜ |
-| 03 | Telegram Bot | `subtarea-03-telegram-bot.md` | — | ⬜ |
+| 03 | Telegram Bot | `subtarea-03-telegram-bot.md` | — | ✅ |
 | 04 | Uptime Kuma | `subtarea-04-uptime-kuma.md` | 03 | ⬜ |
 | 05 | Contenido del Bot (System Prompt) | `subtarea-05-contenido-bot.md` | 01 | ⬜ |
 | 06 | Workflow Core (Módulos 1-4) | `subtarea-06-workflow-core.md` | 01, 02, 05 | ⬜ |
