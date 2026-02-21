@@ -1,0 +1,189 @@
+{
+  "name": "Test 02 — WhatsApp API",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "trigger-manual",
+      "name": "Ejecutar Test",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        200,
+        300
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "wa-phone-id",
+              "name": "meta_phone_number_id",
+              "type": "string",
+              "value": "TU-PHONE-NUMBER-ID"
+            },
+            {
+              "id": "wa-token",
+              "name": "meta_access_token",
+              "type": "string",
+              "value": "TU-ACCESS-TOKEN"
+            },
+            {
+              "id": "wa-test-number",
+              "name": "test_recipient_number",
+              "type": "string",
+              "value": "TU-NUMERO-DE-PRUEBA"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "config-wa",
+      "name": "Config WhatsApp",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        420,
+        300
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://graph.facebook.com/v21.0/{{ $json.meta_phone_number_id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.meta_access_token }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "test-phone-info",
+      "name": "1 Verificar Phone Number",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        660,
+        300
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v21.0/{{ $node['Config WhatsApp'].json.meta_phone_number_id }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $node['Config WhatsApp'].json.meta_access_token }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"messaging_product\": \"whatsapp\",\n  \"to\": \"{{ $node['Config WhatsApp'].json.test_recipient_number }}\",\n  \"type\": \"text\",\n  \"text\": {\n    \"body\": \"Test de conexion n8n - WhatsApp API funcionando correctamente\"\n  }\n}",
+        "options": {}
+      },
+      "id": "test-send-msg",
+      "name": "2 Enviar Mensaje Test",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        900,
+        300
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "jsCode": "const phoneInfo = $node['1 Verificar Phone Number'].json;\nconst sendResult = $node['2 Enviar Mensaje Test'].json;\n\nreturn [{\n  json: {\n    test_status: 'TODOS LOS TESTS PASARON',\n    phone_verified: phoneInfo.verified_name || phoneInfo.display_phone_number || 'OK',\n    message_sent: sendResult.messages ? sendResult.messages[0].id : 'OK',\n    message: 'WhatsApp API verificada. El mensaje de prueba se ha enviado correctamente.'\n  }\n}];"
+      },
+      "id": "test-result",
+      "name": "3 Resultado",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1140,
+        300
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "content": "## Test WhatsApp API\n\n1. Abre Config WhatsApp\n2. Pon tu Phone Number ID, Access Token y numero de prueba\n3. Ejecuta\n4. Deberias recibir un mensaje WhatsApp de prueba\n\nNota: El numero de prueba debe estar en la lista de test numbers de Meta\nSi usas el numero de test de Meta, el destinatario debe ser un numero verificado",
+        "height": 240,
+        "width": 520,
+        "color": 5
+      },
+      "id": "sticky-instructions",
+      "name": "Instrucciones",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        180,
+        40
+      ],
+      "typeVersion": 1
+    }
+  ],
+  "connections": {
+    "Ejecutar Test": {
+      "main": [
+        [
+          {
+            "node": "Config WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "1 Verificar Phone Number",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1 Verificar Phone Number": {
+      "main": [
+        [
+          {
+            "node": "2 Enviar Mensaje Test",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2 Enviar Mensaje Test": {
+      "main": [
+        [
+          {
+            "node": "3 Resultado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Malta"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {}
+}

@@ -49,7 +49,7 @@ n8n-local/
 | # | Subtarea | Estado |
 |---|----------|--------|
 | 01 | Supabase (Base de datos) | ✅ Completada |
-| 02 | Meta WhatsApp Cloud API | ⬜ Pendiente |
+| 02 | Meta WhatsApp Cloud API | ✅ Completada |
 | 03 | Telegram Bot | ✅ Completada |
 | 04 | Uptime Kuma | ⬜ Pendiente |
 | 05 | Contenido del Bot (System Prompt) | ⬜ Pendiente |
