@@ -1,0 +1,1051 @@
+{
+  "updatedAt": "2026-02-12T21:15:05.413Z",
+  "createdAt": "2026-02-04T15:31:56.790Z",
+  "id": "RR0pRP_Qe8fqoG9P2wI_J",
+  "name": "WhatsApp starter workflow",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "1fea1f5f-81c0-48ad-ae13-41e0f8e474ed",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "643ecd76-5e57-470c-a9b0-1f6657a29d4d",
+      "name": "Verify",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        352,
+        3040
+      ],
+      "webhookId": "793f285b-9da7-4a5e-97ce-f0976c113db5",
+      "typeVersion": 1.1,
+      "notes": "This webhook node performs automated tasks as part of the workflow."
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "=12345",
+        "options": {}
+      },
+      "id": "47b84314-a6af-4fca-9cbb-97c28133e904",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "position": [
+        592,
+        3040
+      ],
+      "typeVersion": 1,
+      "notes": "This respondToWebhook node performs automated tasks as part of the workflow."
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "=1025774920614882",
+        "recipientPhoneNumber": "={{ $node[\"Respond\"].json.body.entry[0].changes[0].value.messages[0].from }}",
+        "textBody": "={{ $json.textBody }}",
+        "additionalFields": {}
+      },
+      "id": "8b1eb928-671a-4ea3-ad8c-63f396eb0363",
+      "name": "Echo the message back",
+      "type": "n8n-nodes-base.whatsApp",
+      "position": [
+        1456,
+        3536
+      ],
+      "typeVersion": 1,
+      "webhookId": "155ff358-a52b-4f62-b7ea-69a7361d3892",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "PqoZERMkMbji8GOD",
+          "name": "WhatsApp account"
+        }
+      },
+      "notes": "This whatsApp node performs automated tasks as part of the workflow."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "8a765e57-8e39-4547-a99a-0458df2b75f4",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.body.entry[0].changes[0].value.messages[0] }}",
+              "rightValue": ""
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {
+          "looseTypeValidation": true
+        }
+      },
+      "id": "f4d26d04-9cb9-42c7-8e11-7da09f21e5d3",
+      "name": "Is message?",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        592,
+        3392
+      ],
+      "typeVersion": 2,
+      "notes": "This if node performs automated tasks as part of the workflow."
+    },
+    {
+      "parameters": {
+        "content": "## Verify Webhook\n* Go to your [Meta for Developers App page]({{ $env.WEBHOOK_URL }} navigate to the App settings\n* Add a **production webhook URL** as a new Callback URL\n* *Verify* webhook receives a GET Request and sends back a verification code\n",
+        "height": 272,
+        "width": 618
+      },
+      "id": "8ab75b33-cf99-46cf-80b4-2cf6bd276467",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        320,
+        2896
+      ],
+      "typeVersion": 1,
+      "notes": "This stickyNote node performs automated tasks as part of the workflow."
+    },
+    {
+      "parameters": {
+        "content": "## Main flow\n* *Respond* webhook receives various POST Requests from Meta regarding WhatsApp messages (user messages + status notifications)\n* Check if the incoming JSON contains user message\n* Echo back the text message to the user. This is a custom message, not a WhatsApp Business template message",
+        "height": 343,
+        "width": 619
+      },
+      "id": "d2761433-d277-4db8-b9d6-37d52313b634",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        320,
+        3216
+      ],
+      "typeVersion": 1,
+      "notes": "This stickyNote node performs automated tasks as part of the workflow."
+    },
+    {
+      "parameters": {
+        "content": "## Important!\n### Configure the webhook nodes this way:\n* Make sure that both *Verify* and *Respond* have the same URL\n* *Verify* should have GET HTTP Method\n* *Respond* should have POST HTTP Method",
+        "height": 177,
+        "width": 405,
+        "color": 3
+      },
+      "id": "f55cc451-9ade-4b01-96d0-3a0db058d3de",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -96,
+        3120
+      ],
+      "typeVersion": 1,
+      "notes": "This stickyNote node performs automated tasks as part of the workflow."
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "1fea1f5f-81c0-48ad-ae13-41e0f8e474ed",
+        "options": {}
+      },
+      "id": "64a873a9-a29c-4d6d-910e-12444b9cccda",
+      "name": "Respond",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        352,
+        3392
+      ],
+      "webhookId": "c4cbc1c4-e1f5-4ea5-bd9a-c5f697493985",
+      "typeVersion": 1.1,
+      "notes": "This webhook node performs automated tasks as part of the workflow."
+    },
+    {
+      "parameters": {
+        "url": "https://easylocker.drop-point.com/login",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true
+            }
+          }
+        }
+      },
+      "id": "12ecadfe-d212-42b9-a111-4c789c2105c5",
+      "name": "Get Login Page",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        1120,
+        3312
+      ],
+      "typeVersion": 4.1,
+      "notes": "Gets login page HTML and initial cookies"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://easylocker.drop-point.com/login",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Cookie",
+              "value": "={{ Array.isArray($node[\"Get Login Page\"].json.headers?.['set-cookie']) ? $node[\"Get Login Page\"].json.headers['set-cookie'].map(c => c.split(';')[0]).join('; ') : ($node[\"Get Login Page\"].json.headers?.['set-cookie'] || '') }}"
+            },
+            {
+              "name": "Referer",
+              "value": "https://easylocker.drop-point.com/login"
+            },
+            {
+              "name": "X-CSRF-Token",
+              "value": "={{ (() => { const h = $node[\"Get Login Page\"].json.body || $node[\"Get Login Page\"].json.data || ''; return (h.match(/<meta[^>]+name=[\"']csrf-token[\"'][^>]+content=[\"']([^\"']+)[\"']/i) || h.match(/<meta[^>]+content=[\"']([^\"']+)[\"'][^>]+name=[\"']csrf-token[\"']/i) || h.match(/name=\\\"authenticity_token\\\"[^>]*value=\\\"([^\\\"]+)\\\"/i) || [null, ''])[1]; })() }}"
+            },
+            {
+              "name": "Origin",
+              "value": "https://easylocker.drop-point.com"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "authenticity_token",
+              "value": "={{ (() => { const h = $node[\"Get Login Page\"].json.body || $node[\"Get Login Page\"].json.data || ''; return (h.match(/name=\\\"authenticity_token\\\"[^>]*value=\\\"([^\\\"]+)\\\"/i) || h.match(/<meta[^>]+name=[\"']csrf-token[\"'][^>]+content=[\"']([^\"']+)[\"']/i) || h.match(/<meta[^>]+content=[\"']([^\"']+)[\"'][^>]+name=[\"']csrf-token[\"']/i) || [null, ''])[1]; })() }}"
+            },
+            {
+              "name": "user[login]",
+              "value": "={{ $node[\"EasyLocker Config\"].json.easylocker_user }}"
+            },
+            {
+              "name": "user[password]",
+              "value": "={{ $node[\"EasyLocker Config\"].json.easylocker_password }}"
+            },
+            {
+              "name": "user[remember_me]",
+              "value": "0"
+            },
+            {
+              "name": "commit",
+              "value": "Iniciar sesión"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true
+            }
+          }
+        }
+      },
+      "id": "91a80d4c-e851-49f1-b8ba-e13fd9d538a5",
+      "name": "Do Login",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        1424,
+        3216
+      ],
+      "typeVersion": 4.1,
+      "notes": "Submits login form using authenticity token"
+    },
+    {
+      "parameters": {
+        "url": "={{ $node[\"EasyLocker Config\"].json.easylocker_bookings_url || $node[\"EasyLocker Config\"].json.easylocker_target_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Cookie",
+              "value": "={{ $node[\"Build Session Cookie\"].json.cookieHeader }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true
+            }
+          }
+        }
+      },
+      "id": "259bfe77-dc08-45e1-b32f-6bc4641d0b82",
+      "name": "Get Protected Page",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        1648,
+        3216
+      ],
+      "typeVersion": 4.1,
+      "notes": "Fetches internal page using session cookie"
+    },
+    {
+      "parameters": {
+        "jsCode": "const normalize = (value) => {\n  if (!value) return [];\n  if (Array.isArray(value)) return value;\n  return [value];\n};\n\nconst parseCookiePairs = (setCookieLines) => {\n  const map = new Map();\n  for (const line of setCookieLines) {\n    const pair = String(line).split(';')[0]?.trim();\n    if (!pair || !pair.includes('=')) continue;\n    const eq = pair.indexOf('=');\n    const name = pair.slice(0, eq).trim();\n    const val = pair.slice(eq + 1).trim();\n    if (!name) continue;\n    map.set(name, val);\n  }\n  return map;\n};\n\nconst loginSetCookie = normalize($node[\"Get Login Page\"].json.headers?.['set-cookie']);\nconst postSetCookie = normalize($node[\"Do Login\"].json.headers?.['set-cookie']);\n\nconst merged = new Map([\n  ...parseCookiePairs(loginSetCookie),\n  ...parseCookiePairs(postSetCookie),\n]);\n\nconst cookieHeader = Array.from(merged.entries())\n  .map(([name, value]) => `${name}=${value}`)\n  .join('; ');\n\nreturn [{\n  json: {\n    cookieHeader,\n    cookieCount: merged.size,\n    cookieNames: Array.from(merged.keys()).join(', ')\n  }\n}];"
+      },
+      "id": "dab5b4af-73b6-401c-9100-befa37e7b08b",
+      "name": "Build Session Cookie",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1648,
+        3344
+      ],
+      "typeVersion": 2,
+      "notes": "Merges Set-Cookie from login GET + POST into one Cookie header"
+    },
+    {
+      "parameters": {
+        "jsCode": "const loginPage = $node[\"Get Login Page\"].json || {};\nconst post = $node[\"Do Login\"].json || {};\nconst bookingsPage = $node[\"Get Protected Page\"].json || {};\n\nconst loginHtml = loginPage.body || loginPage.data || '';\nconst html = bookingsPage.body || bookingsPage.data || '';\n\nconst token = ((loginHtml.match(/name=\\\"authenticity_token\\\"[^>]*value=\\\"([^\\\"]+)\\\"/i) || loginHtml.match(/<meta[^>]+name=[\"']csrf-token[\"'][^>]+content=[\"']([^\"']+)[\"']/i) || loginHtml.match(/<meta[^>]+content=[\"']([^\"']+)[\"'][^>]+name=[\"']csrf-token[\"']/i) || [null, ''])[1] || '').trim();\nconst tokenFound = token.length > 0;\n\nconst now = new Date();\nconst dd = String(now.getDate()).padStart(2, '0');\nconst mm = String(now.getMonth() + 1).padStart(2, '0');\nconst yyyy = String(now.getFullYear());\nconst yy = yyyy.slice(-2);\n\nconst dateVariants = [\n  `${dd}/${mm}/${yyyy}`,\n  `${dd}-${mm}-${yyyy}`,\n  `${yyyy}-${mm}-${dd}`,\n  `${dd}/${mm}/${yy}`,\n  `${dd}-${mm}-${yy}`,\n  `${dd}.${mm}.${yyyy}`,\n  `${dd}.${mm}.${yy}`\n];\n\nconst flattened = String(html).replace(/\\s+/g, ' ');\nconst lines = flattened.split(/(?<=\\}|\\]|>|\\n|,)/g).map(s => s.trim()).filter(Boolean);\nconst todayLines = lines.filter(line => dateVariants.some(d => line.includes(d)));\n\nconst codeRegexes = [\n  /(?:booking|reserva|codigo|code|folio)[^A-Za-z0-9]{0,12}([A-Z0-9][A-Z0-9-]{3,24})/ig,\n  /\\b[A-Z]{2,6}-\\d{3,10}\\b/g,\n  /\\b\\d{6,12}\\b/g\n];\n\nconst foundCodes = new Set();\nfor (const block of todayLines) {\n  for (const rx of codeRegexes) {\n    let m;\n    while ((m = rx.exec(block)) !== null) {\n      const candidate = (m[1] || m[0] || '').trim();\n      if (!candidate) continue;\n      if (/^20\\d{2}$/.test(candidate)) continue;\n      foundCodes.add(candidate);\n    }\n    rx.lastIndex = 0;\n  }\n}\n\nconst loginOk = post.statusCode === 200 && tokenFound;\nlet textBody = '';\n\nif (!loginOk) {\n  textBody = [\n    'No se pudo autenticar en EasyLocker ⚠️',\n    `POST /login: ${post.statusCode ?? 'n/a'}`,\n    `Token detectado: ${tokenFound ? 'sí' : 'no'}`\n  ].join('\\n');\n} else if (foundCodes.size === 0) {\n  textBody = [\n    'Login OK ✅',\n    `Bookings de hoy (${dd}/${mm}/${yyyy}): no encontré códigos.`\n  ].join('\\n');\n} else {\n  const list = Array.from(foundCodes).slice(0, 15);\n  textBody = [\n    'Login OK ✅',\n    `Bookings de hoy (${dd}/${mm}/${yyyy}):`,\n    ...list.map(c => `- ${c}`)\n  ].join('\\n');\n}\n\nreturn [{ json: { textBody } }];"
+      },
+      "id": "a973d8ea-842a-46e8-854c-f7c3e248208e",
+      "name": "Build Reply",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1856,
+        3216
+      ],
+      "typeVersion": 2,
+      "notes": "Build WhatsApp reply from fetched HTML"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e3aa33dd-008f-4842-b6f6-a013912d8cf4",
+              "name": "easylocker_user",
+              "type": "string",
+              "value": "aalzres@gmail.com"
+            },
+            {
+              "id": "8fe4d7a5-cf64-47de-a494-5f74f1ee6b1f",
+              "name": "easylocker_password",
+              "type": "string",
+              "value": "gifwag-7sezju-goxfuW"
+            },
+            {
+              "id": "14de2d6f-bdb3-40bb-9bd8-9c4d9f11f201",
+              "name": "easylocker_target_url",
+              "type": "string",
+              "value": "https://easylocker.drop-point.com/machines/1/panel#tab_panel"
+            },
+            {
+              "id": "2f7a7f98-53df-4a5f-8f6d-7e83fdf0af2f",
+              "name": "easylocker_bookings_url",
+              "type": "string",
+              "value": "https://easylocker.drop-point.com/machines/1/bookings"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f2780b49-4556-4b32-a2f5-fb4a7ee0f081",
+      "name": "EasyLocker Config",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        800,
+        3392
+      ],
+      "typeVersion": 3.4,
+      "notes": "Set your EasyLocker login and password here"
+    },
+    {
+      "parameters": {
+        "content": "## EasyLocker Login Flow\n1. Open node `EasyLocker Config` and set `easylocker_user` + `easylocker_password`\n2. Any incoming WhatsApp text triggers: GET login -> POST login -> GET protected page\n3. Reply confirms if login seems successful",
+        "height": 171,
+        "width": 536,
+        "color": 5
+      },
+      "id": "fa58e430-6e05-4704-8feb-9ac6f014b576",
+      "name": "Sticky Note Login",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1280,
+        2976
+      ],
+      "typeVersion": 1,
+      "notes": "Configuration note for EasyLocker login automation"
+    }
+  ],
+  "connections": {
+    "Verify": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is message?": {
+      "main": [
+        [
+          {
+            "node": "EasyLocker Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond": {
+      "main": [
+        [
+          {
+            "node": "Is message?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Login Page": {
+      "main": [
+        [
+          {
+            "node": "Do Login",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Do Login": {
+      "main": [
+        [
+          {
+            "node": "Build Session Cookie",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Session Cookie": {
+      "main": [
+        [
+          {
+            "node": "Get Protected Page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Protected Page": {
+      "main": [
+        [
+          {
+            "node": "Build Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Reply": {
+      "main": [
+        [
+          {
+            "node": "Echo the message back",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "EasyLocker Config": {
+      "main": [
+        [
+          {
+            "node": "Get Login Page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Malta",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "2bb6e5fe-816e-4a96-bb71-15887848f03d",
+  "activeVersionId": "2bb6e5fe-816e-4a96-bb71-15887848f03d",
+  "versionCounter": 103,
+  "triggerCount": 2,
+  "shared": [
+    {
+      "updatedAt": "2026-02-04T15:31:56.793Z",
+      "createdAt": "2026-02-04T15:31:56.793Z",
+      "role": "workflow:owner",
+      "workflowId": "RR0pRP_Qe8fqoG9P2wI_J",
+      "projectId": "b0sQUnf84o4TmJLM",
+      "project": {
+        "updatedAt": "2026-02-04T13:15:52.270Z",
+        "createdAt": "2026-02-04T13:11:39.488Z",
+        "id": "b0sQUnf84o4TmJLM",
+        "name": "felipe alzate <info@easy-locker.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "bf6a5d6b-4e7f-482c-9a61-b677e9868d14",
+        "projectRelations": [
+          {
+            "updatedAt": "2026-02-04T13:11:39.488Z",
+            "createdAt": "2026-02-04T13:11:39.488Z",
+            "userId": "bf6a5d6b-4e7f-482c-9a61-b677e9868d14",
+            "projectId": "b0sQUnf84o4TmJLM",
+            "user": {
+              "updatedAt": "2026-02-21T10:58:29.000Z",
+              "createdAt": "2026-02-04T13:11:39.387Z",
+              "id": "bf6a5d6b-4e7f-482c-9a61-b677e9868d14",
+              "email": "info@easy-locker.com",
+              "firstName": "felipe",
+              "lastName": "alzate",
+              "personalizationAnswers": {
+                "version": "v4",
+                "personalization_survey_submitted_at": "2026-02-04T13:18:35.041Z",
+                "personalization_survey_n8n_version": "1.64.3",
+                "automationGoalDevops": [
+                  "other"
+                ],
+                "automationGoalDevopsOther": "human flow",
+                "companyIndustryExtended": [
+                  "msp",
+                  "physical-retail-or-services"
+                ],
+                "companySize": "<20",
+                "companyType": "other",
+                "role": "engineering",
+                "reportedSource": "other",
+                "reportedSourceOther": "upwork"
+              },
+              "settings": {
+                "userActivated": true,
+                "firstSuccessfulWorkflowId": "RR0pRP_Qe8fqoG9P2wI_J",
+                "userActivatedAt": 1770904203459
+              },
+              "disabled": false,
+              "mfaEnabled": false,
+              "lastActiveAt": "2026-02-21",
+              "isPending": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": {
+    "updatedAt": "2026-02-12T21:15:07.000Z",
+    "createdAt": "2026-02-12T21:15:05.417Z",
+    "versionId": "2bb6e5fe-816e-4a96-bb71-15887848f03d",
+    "workflowId": "RR0pRP_Qe8fqoG9P2wI_J",
+    "nodes": [
+      {
+        "parameters": {
+          "path": "1fea1f5f-81c0-48ad-ae13-41e0f8e474ed",
+          "responseMode": "responseNode",
+          "options": {}
+        },
+        "id": "643ecd76-5e57-470c-a9b0-1f6657a29d4d",
+        "name": "Verify",
+        "type": "n8n-nodes-base.webhook",
+        "position": [
+          352,
+          3040
+        ],
+        "webhookId": "793f285b-9da7-4a5e-97ce-f0976c113db5",
+        "typeVersion": 1.1,
+        "notes": "This webhook node performs automated tasks as part of the workflow."
+      },
+      {
+        "parameters": {
+          "respondWith": "text",
+          "responseBody": "=12345",
+          "options": {}
+        },
+        "id": "47b84314-a6af-4fca-9cbb-97c28133e904",
+        "name": "Respond to Webhook",
+        "type": "n8n-nodes-base.respondToWebhook",
+        "position": [
+          592,
+          3040
+        ],
+        "typeVersion": 1,
+        "notes": "This respondToWebhook node performs automated tasks as part of the workflow."
+      },
+      {
+        "parameters": {
+          "operation": "send",
+          "phoneNumberId": "=1025774920614882",
+          "recipientPhoneNumber": "={{ $node[\"Respond\"].json.body.entry[0].changes[0].value.messages[0].from }}",
+          "textBody": "={{ $json.textBody }}",
+          "additionalFields": {}
+        },
+        "id": "8b1eb928-671a-4ea3-ad8c-63f396eb0363",
+        "name": "Echo the message back",
+        "type": "n8n-nodes-base.whatsApp",
+        "position": [
+          1456,
+          3536
+        ],
+        "typeVersion": 1,
+        "webhookId": "155ff358-a52b-4f62-b7ea-69a7361d3892",
+        "credentials": {
+          "whatsAppApi": {
+            "id": "PqoZERMkMbji8GOD",
+            "name": "WhatsApp account"
+          }
+        },
+        "notes": "This whatsApp node performs automated tasks as part of the workflow."
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "loose",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "8a765e57-8e39-4547-a99a-0458df2b75f4",
+                "operator": {
+                  "type": "object",
+                  "operation": "exists",
+                  "singleValue": true
+                },
+                "leftValue": "={{ $json.body.entry[0].changes[0].value.messages[0] }}",
+                "rightValue": ""
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {
+            "looseTypeValidation": true
+          }
+        },
+        "id": "f4d26d04-9cb9-42c7-8e11-7da09f21e5d3",
+        "name": "Is message?",
+        "type": "n8n-nodes-base.if",
+        "position": [
+          592,
+          3392
+        ],
+        "typeVersion": 2,
+        "notes": "This if node performs automated tasks as part of the workflow."
+      },
+      {
+        "parameters": {
+          "content": "## Verify Webhook\n* Go to your [Meta for Developers App page]({{ $env.WEBHOOK_URL }} navigate to the App settings\n* Add a **production webhook URL** as a new Callback URL\n* *Verify* webhook receives a GET Request and sends back a verification code\n",
+          "height": 272,
+          "width": 618
+        },
+        "id": "8ab75b33-cf99-46cf-80b4-2cf6bd276467",
+        "name": "Sticky Note",
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          320,
+          2896
+        ],
+        "typeVersion": 1,
+        "notes": "This stickyNote node performs automated tasks as part of the workflow."
+      },
+      {
+        "parameters": {
+          "content": "## Main flow\n* *Respond* webhook receives various POST Requests from Meta regarding WhatsApp messages (user messages + status notifications)\n* Check if the incoming JSON contains user message\n* Echo back the text message to the user. This is a custom message, not a WhatsApp Business template message",
+          "height": 343,
+          "width": 619
+        },
+        "id": "d2761433-d277-4db8-b9d6-37d52313b634",
+        "name": "Sticky Note1",
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          320,
+          3216
+        ],
+        "typeVersion": 1,
+        "notes": "This stickyNote node performs automated tasks as part of the workflow."
+      },
+      {
+        "parameters": {
+          "content": "## Important!\n### Configure the webhook nodes this way:\n* Make sure that both *Verify* and *Respond* have the same URL\n* *Verify* should have GET HTTP Method\n* *Respond* should have POST HTTP Method",
+          "height": 177,
+          "width": 405,
+          "color": 3
+        },
+        "id": "f55cc451-9ade-4b01-96d0-3a0db058d3de",
+        "name": "Sticky Note2",
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          -96,
+          3120
+        ],
+        "typeVersion": 1,
+        "notes": "This stickyNote node performs automated tasks as part of the workflow."
+      },
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "1fea1f5f-81c0-48ad-ae13-41e0f8e474ed",
+          "options": {}
+        },
+        "id": "64a873a9-a29c-4d6d-910e-12444b9cccda",
+        "name": "Respond",
+        "type": "n8n-nodes-base.webhook",
+        "position": [
+          352,
+          3392
+        ],
+        "webhookId": "c4cbc1c4-e1f5-4ea5-bd9a-c5f697493985",
+        "typeVersion": 1.1,
+        "notes": "This webhook node performs automated tasks as part of the workflow."
+      },
+      {
+        "parameters": {
+          "url": "https://easylocker.drop-point.com/login",
+          "options": {
+            "response": {
+              "response": {
+                "fullResponse": true
+              }
+            }
+          }
+        },
+        "id": "12ecadfe-d212-42b9-a111-4c789c2105c5",
+        "name": "Get Login Page",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [
+          1120,
+          3312
+        ],
+        "typeVersion": 4.1,
+        "notes": "Gets login page HTML and initial cookies"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://easylocker.drop-point.com/login",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Cookie",
+                "value": "={{ Array.isArray($node[\"Get Login Page\"].json.headers?.['set-cookie']) ? $node[\"Get Login Page\"].json.headers['set-cookie'].map(c => c.split(';')[0]).join('; ') : ($node[\"Get Login Page\"].json.headers?.['set-cookie'] || '') }}"
+              },
+              {
+                "name": "Referer",
+                "value": "https://easylocker.drop-point.com/login"
+              },
+              {
+                "name": "X-CSRF-Token",
+                "value": "={{ (() => { const h = $node[\"Get Login Page\"].json.body || $node[\"Get Login Page\"].json.data || ''; return (h.match(/<meta[^>]+name=[\"']csrf-token[\"'][^>]+content=[\"']([^\"']+)[\"']/i) || h.match(/<meta[^>]+content=[\"']([^\"']+)[\"'][^>]+name=[\"']csrf-token[\"']/i) || h.match(/name=\\\"authenticity_token\\\"[^>]*value=\\\"([^\\\"]+)\\\"/i) || [null, ''])[1]; })() }}"
+              },
+              {
+                "name": "Origin",
+                "value": "https://easylocker.drop-point.com"
+              }
+            ]
+          },
+          "sendBody": true,
+          "contentType": "form-urlencoded",
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "authenticity_token",
+                "value": "={{ (() => { const h = $node[\"Get Login Page\"].json.body || $node[\"Get Login Page\"].json.data || ''; return (h.match(/name=\\\"authenticity_token\\\"[^>]*value=\\\"([^\\\"]+)\\\"/i) || h.match(/<meta[^>]+name=[\"']csrf-token[\"'][^>]+content=[\"']([^\"']+)[\"']/i) || h.match(/<meta[^>]+content=[\"']([^\"']+)[\"'][^>]+name=[\"']csrf-token[\"']/i) || [null, ''])[1]; })() }}"
+              },
+              {
+                "name": "user[login]",
+                "value": "={{ $node[\"EasyLocker Config\"].json.easylocker_user }}"
+              },
+              {
+                "name": "user[password]",
+                "value": "={{ $node[\"EasyLocker Config\"].json.easylocker_password }}"
+              },
+              {
+                "name": "user[remember_me]",
+                "value": "0"
+              },
+              {
+                "name": "commit",
+                "value": "Iniciar sesión"
+              }
+            ]
+          },
+          "options": {
+            "response": {
+              "response": {
+                "fullResponse": true
+              }
+            }
+          }
+        },
+        "id": "91a80d4c-e851-49f1-b8ba-e13fd9d538a5",
+        "name": "Do Login",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [
+          1424,
+          3216
+        ],
+        "typeVersion": 4.1,
+        "notes": "Submits login form using authenticity token"
+      },
+      {
+        "parameters": {
+          "url": "={{ $node[\"EasyLocker Config\"].json.easylocker_bookings_url || $node[\"EasyLocker Config\"].json.easylocker_target_url }}",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Cookie",
+                "value": "={{ $node[\"Build Session Cookie\"].json.cookieHeader }}"
+              }
+            ]
+          },
+          "options": {
+            "response": {
+              "response": {
+                "fullResponse": true
+              }
+            }
+          }
+        },
+        "id": "259bfe77-dc08-45e1-b32f-6bc4641d0b82",
+        "name": "Get Protected Page",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [
+          1648,
+          3216
+        ],
+        "typeVersion": 4.1,
+        "notes": "Fetches internal page using session cookie"
+      },
+      {
+        "parameters": {
+          "jsCode": "const normalize = (value) => {\n  if (!value) return [];\n  if (Array.isArray(value)) return value;\n  return [value];\n};\n\nconst parseCookiePairs = (setCookieLines) => {\n  const map = new Map();\n  for (const line of setCookieLines) {\n    const pair = String(line).split(';')[0]?.trim();\n    if (!pair || !pair.includes('=')) continue;\n    const eq = pair.indexOf('=');\n    const name = pair.slice(0, eq).trim();\n    const val = pair.slice(eq + 1).trim();\n    if (!name) continue;\n    map.set(name, val);\n  }\n  return map;\n};\n\nconst loginSetCookie = normalize($node[\"Get Login Page\"].json.headers?.['set-cookie']);\nconst postSetCookie = normalize($node[\"Do Login\"].json.headers?.['set-cookie']);\n\nconst merged = new Map([\n  ...parseCookiePairs(loginSetCookie),\n  ...parseCookiePairs(postSetCookie),\n]);\n\nconst cookieHeader = Array.from(merged.entries())\n  .map(([name, value]) => `${name}=${value}`)\n  .join('; ');\n\nreturn [{\n  json: {\n    cookieHeader,\n    cookieCount: merged.size,\n    cookieNames: Array.from(merged.keys()).join(', ')\n  }\n}];"
+        },
+        "id": "dab5b4af-73b6-401c-9100-befa37e7b08b",
+        "name": "Build Session Cookie",
+        "type": "n8n-nodes-base.code",
+        "position": [
+          1648,
+          3344
+        ],
+        "typeVersion": 2,
+        "notes": "Merges Set-Cookie from login GET + POST into one Cookie header"
+      },
+      {
+        "parameters": {
+          "jsCode": "const loginPage = $node[\"Get Login Page\"].json || {};\nconst post = $node[\"Do Login\"].json || {};\nconst bookingsPage = $node[\"Get Protected Page\"].json || {};\n\nconst loginHtml = loginPage.body || loginPage.data || '';\nconst html = bookingsPage.body || bookingsPage.data || '';\n\nconst token = ((loginHtml.match(/name=\\\"authenticity_token\\\"[^>]*value=\\\"([^\\\"]+)\\\"/i) || loginHtml.match(/<meta[^>]+name=[\"']csrf-token[\"'][^>]+content=[\"']([^\"']+)[\"']/i) || loginHtml.match(/<meta[^>]+content=[\"']([^\"']+)[\"'][^>]+name=[\"']csrf-token[\"']/i) || [null, ''])[1] || '').trim();\nconst tokenFound = token.length > 0;\n\nconst now = new Date();\nconst dd = String(now.getDate()).padStart(2, '0');\nconst mm = String(now.getMonth() + 1).padStart(2, '0');\nconst yyyy = String(now.getFullYear());\nconst yy = yyyy.slice(-2);\n\nconst dateVariants = [\n  `${dd}/${mm}/${yyyy}`,\n  `${dd}-${mm}-${yyyy}`,\n  `${yyyy}-${mm}-${dd}`,\n  `${dd}/${mm}/${yy}`,\n  `${dd}-${mm}-${yy}`,\n  `${dd}.${mm}.${yyyy}`,\n  `${dd}.${mm}.${yy}`\n];\n\nconst flattened = String(html).replace(/\\s+/g, ' ');\nconst lines = flattened.split(/(?<=\\}|\\]|>|\\n|,)/g).map(s => s.trim()).filter(Boolean);\nconst todayLines = lines.filter(line => dateVariants.some(d => line.includes(d)));\n\nconst codeRegexes = [\n  /(?:booking|reserva|codigo|code|folio)[^A-Za-z0-9]{0,12}([A-Z0-9][A-Z0-9-]{3,24})/ig,\n  /\\b[A-Z]{2,6}-\\d{3,10}\\b/g,\n  /\\b\\d{6,12}\\b/g\n];\n\nconst foundCodes = new Set();\nfor (const block of todayLines) {\n  for (const rx of codeRegexes) {\n    let m;\n    while ((m = rx.exec(block)) !== null) {\n      const candidate = (m[1] || m[0] || '').trim();\n      if (!candidate) continue;\n      if (/^20\\d{2}$/.test(candidate)) continue;\n      foundCodes.add(candidate);\n    }\n    rx.lastIndex = 0;\n  }\n}\n\nconst loginOk = post.statusCode === 200 && tokenFound;\nlet textBody = '';\n\nif (!loginOk) {\n  textBody = [\n    'No se pudo autenticar en EasyLocker ⚠️',\n    `POST /login: ${post.statusCode ?? 'n/a'}`,\n    `Token detectado: ${tokenFound ? 'sí' : 'no'}`\n  ].join('\\n');\n} else if (foundCodes.size === 0) {\n  textBody = [\n    'Login OK ✅',\n    `Bookings de hoy (${dd}/${mm}/${yyyy}): no encontré códigos.`\n  ].join('\\n');\n} else {\n  const list = Array.from(foundCodes).slice(0, 15);\n  textBody = [\n    'Login OK ✅',\n    `Bookings de hoy (${dd}/${mm}/${yyyy}):`,\n    ...list.map(c => `- ${c}`)\n  ].join('\\n');\n}\n\nreturn [{ json: { textBody } }];"
+        },
+        "id": "a973d8ea-842a-46e8-854c-f7c3e248208e",
+        "name": "Build Reply",
+        "type": "n8n-nodes-base.code",
+        "position": [
+          1856,
+          3216
+        ],
+        "typeVersion": 2,
+        "notes": "Build WhatsApp reply from fetched HTML"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "e3aa33dd-008f-4842-b6f6-a013912d8cf4",
+                "name": "easylocker_user",
+                "type": "string",
+                "value": "aalzres@gmail.com"
+              },
+              {
+                "id": "8fe4d7a5-cf64-47de-a494-5f74f1ee6b1f",
+                "name": "easylocker_password",
+                "type": "string",
+                "value": "gifwag-7sezju-goxfuW"
+              },
+              {
+                "id": "14de2d6f-bdb3-40bb-9bd8-9c4d9f11f201",
+                "name": "easylocker_target_url",
+                "type": "string",
+                "value": "https://easylocker.drop-point.com/machines/1/panel#tab_panel"
+              },
+              {
+                "id": "2f7a7f98-53df-4a5f-8f6d-7e83fdf0af2f",
+                "name": "easylocker_bookings_url",
+                "type": "string",
+                "value": "https://easylocker.drop-point.com/machines/1/bookings"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "f2780b49-4556-4b32-a2f5-fb4a7ee0f081",
+        "name": "EasyLocker Config",
+        "type": "n8n-nodes-base.set",
+        "position": [
+          800,
+          3392
+        ],
+        "typeVersion": 3.4,
+        "notes": "Set your EasyLocker login and password here"
+      },
+      {
+        "parameters": {
+          "content": "## EasyLocker Login Flow\n1. Open node `EasyLocker Config` and set `easylocker_user` + `easylocker_password`\n2. Any incoming WhatsApp text triggers: GET login -> POST login -> GET protected page\n3. Reply confirms if login seems successful",
+          "height": 171,
+          "width": 536,
+          "color": 5
+        },
+        "id": "fa58e430-6e05-4704-8feb-9ac6f014b576",
+        "name": "Sticky Note Login",
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          1280,
+          2976
+        ],
+        "typeVersion": 1,
+        "notes": "Configuration note for EasyLocker login automation"
+      }
+    ],
+    "connections": {
+      "Verify": {
+        "main": [
+          [
+            {
+              "node": "Respond to Webhook",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Is message?": {
+        "main": [
+          [
+            {
+              "node": "EasyLocker Config",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Respond": {
+        "main": [
+          [
+            {
+              "node": "Is message?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get Login Page": {
+        "main": [
+          [
+            {
+              "node": "Do Login",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Do Login": {
+        "main": [
+          [
+            {
+              "node": "Build Session Cookie",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Build Session Cookie": {
+        "main": [
+          [
+            {
+              "node": "Get Protected Page",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get Protected Page": {
+        "main": [
+          [
+            {
+              "node": "Build Reply",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Build Reply": {
+        "main": [
+          [
+            {
+              "node": "Echo the message back",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "EasyLocker Config": {
+        "main": [
+          [
+            {
+              "node": "Get Login Page",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "felipe alzate",
+    "name": "Version 2bb6e5fe",
+    "description": "",
+    "autosaved": true,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2026-02-12T21:15:07.667Z",
+        "id": 14,
+        "workflowId": "RR0pRP_Qe8fqoG9P2wI_J",
+        "versionId": "2bb6e5fe-816e-4a96-bb71-15887848f03d",
+        "event": "activated",
+        "userId": "bf6a5d6b-4e7f-482c-9a61-b677e9868d14"
+      }
+    ]
+  }
+}
