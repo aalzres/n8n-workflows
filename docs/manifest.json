@@ -1,0 +1,221 @@
+{
+  "version": "1.0.0",
+  "project": "n8n-workflows",
+  "description": "Plataforma de documentación y búsqueda para colección de workflows n8n (4343+)",
+  "last_updated": "2026-02-21",
+  "documents": [
+    {
+      "id": "readme",
+      "type": "navigation",
+      "path": "docs/README.md",
+      "title": "Documentación — Punto de entrada",
+      "status": "approved",
+      "tags": ["navigation", "overview"]
+    },
+    {
+      "id": "doc-standards",
+      "type": "standards",
+      "path": "docs/DOCUMENTATION_STANDARDS.md",
+      "title": "Documentation Standards",
+      "status": "approved",
+      "tags": ["standards", "documentation"]
+    },
+    {
+      "id": "design-system-overview",
+      "type": "design",
+      "path": "docs/design/system-overview.md",
+      "title": "Visión General del Sistema",
+      "status": "approved",
+      "tags": ["architecture", "overview", "system"]
+    },
+    {
+      "id": "agent-main-assistant",
+      "type": "agent",
+      "path": "docs/design/agent-main-assistant.md",
+      "title": "Agente Principal — Orquestador y Asistente",
+      "status": "approved",
+      "tags": ["agent", "orchestrator", "main", "assistant"],
+      "priority": "critical"
+    },
+    {
+      "id": "agent-backend-api",
+      "type": "agent",
+      "path": "docs/design/agent-backend-api.md",
+      "title": "Agente Backend / API",
+      "status": "approved",
+      "tags": ["agent", "backend", "fastapi", "python"]
+    },
+    {
+      "id": "agent-devops",
+      "type": "agent",
+      "path": "docs/design/agent-devops.md",
+      "title": "Agente DevOps / Infraestructura",
+      "status": "approved",
+      "tags": ["agent", "devops", "docker", "kubernetes", "helm"]
+    },
+    {
+      "id": "agent-frontend",
+      "type": "agent",
+      "path": "docs/design/agent-frontend.md",
+      "title": "Agente Frontend / UI",
+      "status": "approved",
+      "tags": ["agent", "frontend", "html", "github-pages"]
+    },
+    {
+      "id": "agent-ai-ml",
+      "type": "agent",
+      "path": "docs/design/agent-ai-ml.md",
+      "title": "Agente IA / ML",
+      "status": "approved",
+      "tags": ["agent", "ai", "ml", "analytics", "assistant"]
+    },
+    {
+      "id": "agent-security",
+      "type": "agent",
+      "path": "docs/design/agent-security.md",
+      "title": "Agente Seguridad",
+      "status": "approved",
+      "tags": ["agent", "security", "auth", "jwt"]
+    },
+    {
+      "id": "agent-workflows",
+      "type": "agent",
+      "path": "docs/design/agent-workflows.md",
+      "title": "Agente Gestión de Workflows n8n",
+      "status": "approved",
+      "tags": ["agent", "workflows", "n8n", "json"]
+    },
+    {
+      "id": "agent-database",
+      "type": "agent",
+      "path": "docs/design/agent-database.md",
+      "title": "Agente Base de Datos",
+      "status": "approved",
+      "tags": ["agent", "database", "sqlite", "fts5"]
+    },
+    {
+      "id": "agent-community",
+      "type": "agent",
+      "path": "docs/design/agent-community.md",
+      "title": "Agente Comunidad y Usuarios",
+      "status": "approved",
+      "tags": ["agent", "community", "users", "ratings"]
+    },
+    {
+      "id": "adr-001",
+      "type": "adr",
+      "path": "docs/adr/adr-001-sqlite-fts5.md",
+      "title": "ADR-001: SQLite con FTS5 para indexado y búsqueda",
+      "status": "approved",
+      "tags": ["database", "sqlite", "fts5", "search"]
+    },
+    {
+      "id": "adr-002",
+      "type": "adr",
+      "path": "docs/adr/adr-002-fastapi-framework.md",
+      "title": "ADR-002: FastAPI como framework de API",
+      "status": "approved",
+      "tags": ["api", "fastapi", "python"]
+    },
+    {
+      "id": "adr-003",
+      "type": "adr",
+      "path": "docs/adr/adr-003-docker-containerization.md",
+      "title": "ADR-003: Docker para contenedorización",
+      "status": "approved",
+      "tags": ["docker", "infrastructure", "deployment"]
+    },
+    {
+      "id": "adr-004",
+      "type": "adr",
+      "path": "docs/adr/adr-004-jwt-authentication.md",
+      "title": "ADR-004: JWT para autenticación",
+      "status": "approved",
+      "tags": ["security", "jwt", "authentication"]
+    },
+    {
+      "id": "runbook-api-server",
+      "type": "runbook",
+      "path": "docs/runbooks/runbook-api-server.md",
+      "title": "Runbook: API Server",
+      "status": "approved",
+      "tags": ["operations", "api", "server"]
+    },
+    {
+      "id": "runbook-workflow-indexing",
+      "type": "runbook",
+      "path": "docs/runbooks/runbook-workflow-indexing.md",
+      "title": "Runbook: Indexado de Workflows",
+      "status": "approved",
+      "tags": ["operations", "indexing", "database"]
+    },
+    {
+      "id": "runbook-docker-deployment",
+      "type": "runbook",
+      "path": "docs/runbooks/runbook-docker-deployment.md",
+      "title": "Runbook: Despliegue Docker",
+      "status": "approved",
+      "tags": ["operations", "docker", "deployment"]
+    },
+    {
+      "id": "runbook-k8s-deployment",
+      "type": "runbook",
+      "path": "docs/runbooks/runbook-k8s-deployment.md",
+      "title": "Runbook: Despliegue Kubernetes",
+      "status": "approved",
+      "tags": ["operations", "kubernetes", "deployment"]
+    },
+    {
+      "id": "brand-medcards-ai",
+      "type": "brand",
+      "path": "docs/brands/medcards-ai.md",
+      "title": "MEDCARDS.AI — Subproyecto",
+      "status": "approved",
+      "tags": ["brand", "medcards", "nextjs", "supabase", "claude"]
+    },
+    {
+      "id": "python-style-guide",
+      "type": "engineering-standard",
+      "path": "docs/standards/engineering/python-style-guide.md",
+      "title": "Python Style Guide",
+      "status": "approved",
+      "tags": ["standards", "python", "code-style"]
+    }
+  ],
+  "agents": {
+    "main": "agent-main-assistant",
+    "specialists": [
+      "agent-backend-api",
+      "agent-devops",
+      "agent-frontend",
+      "agent-ai-ml",
+      "agent-security",
+      "agent-workflows",
+      "agent-database",
+      "agent-community"
+    ]
+  },
+  "source_map": {
+    "api_server.py": "agent-backend-api",
+    "workflow_db.py": "agent-database",
+    "run.py": "agent-backend-api",
+    "requirements.txt": "agent-backend-api",
+    "Dockerfile": "agent-devops",
+    "docker-compose*.yml": "agent-devops",
+    "k8s/": "agent-devops",
+    "helm/": "agent-devops",
+    "static/": "agent-frontend",
+    "docs/": "agent-frontend",
+    "workflows/": "agent-workflows",
+    "src/ai_assistant.py": "agent-ai-ml",
+    "src/analytics_engine.py": "agent-ai-ml",
+    "src/enhanced_api.py": "agent-backend-api",
+    "src/community_features.py": "agent-community",
+    "src/user_management.py": "agent-community",
+    "src/integration_hub.py": "agent-backend-api",
+    "src/performance_monitor.py": "agent-backend-api",
+    "ai-stack/": "agent-ai-ml",
+    "medcards-ai/": "brand-medcards-ai",
+    "scripts/": "agent-devops"
+  }
+}
